@@ -1,0 +1,56 @@
+const { v4: uuidv4 } = require("uuid");
+const Users = require("../models/users");
+const { setUser } = require("../service/auth");
+
+async function handleUser(req, res) {
+  try {
+    const { name, email, password } = req.body;
+
+    const newUser = await Users.create({
+      name,
+      email,
+      password,
+    });
+    return res.status(200).json({
+      message: "User created successfully",
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
+    });
+  } catch (error) {
+    console.log("Somthing went error ", error);
+  }
+}
+
+async function handleLogin(req, res) {
+  try {
+    const { email, password } = req.body;
+
+    const existUser = await Users.findOne({
+      email,
+      password,
+    });
+    if (!existUser) {
+      // Redirect to login page is panding
+      return res.status(401).json({
+        message: "Invalid Username or password",
+      });
+    }
+    const sessionId = uuidv4();
+    setUser(sessionId, existUser);
+    res.cookie("uid", sessionId, {
+      httpOnly: true, // Helps prevent XSS
+      secure: false, // Set to true in production with HTTPS
+      sameSite: "Lax", // Helps CSRF protection
+    });
+    return res.status(200).json({ message: "Login successful" });
+
+    // return res.redirect('/')
+  } catch (error) {
+    console.log("Somthing went error ", error);
+  }
+}
+
+module.exports = { handleUser, handleLogin };
