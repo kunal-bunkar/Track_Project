@@ -6,8 +6,11 @@ const urlRouter = require("./routes/url");
 const homeRouter = require('./routes/home')
 const { loggedUserOnly, checkAuth } = require("./middlewares/auth");
 const Url = require("./models/urls");
+const cors = require('cors');
+
 
 const app = express();
+app.use(cors());
 app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
