@@ -5,12 +5,25 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   if (!req.user) return res.redirect("/login");
-  console.log(req.user)
   const allURL = await URL.find({ createdBy: req.user._id });
   return res.json( {
     urls: allURL,
   });
 });
+
+router.delete('/delete/:shortId',async ( req, res)=>{
+  const {shortId} = req.params
+  try {
+    const deletedProject = await URL.findOneAndDelete({shortId})
+    if (!deletedProject) {
+      return res.status(404).json({ message: "Project not found." });
+    }
+   return res.status(200).json({ message: "Project deleted successfully.", deletedProject });
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    res.status(500).json({ message: "Failed to delete project." });
+  }
+})
 
 // router.get("/signup", (req, res) => {
 //   return res.render("signup");

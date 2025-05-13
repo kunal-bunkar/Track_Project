@@ -3,14 +3,15 @@ const { nanoid } = require("nanoid");
 
 async function handleURL(req, res) {
   try {
-    const { url } = req.body;
-    if (!url || typeof url !== "string") {
+    const { name,url } = req.body;
+    if (!name && !url || typeof url !== "string") {
       return res.status(400).json({
         message: "Invalid URL input",
       });
     }
     const shortId = nanoid(8);
     const newURL = await Url.create({
+      project_name:name,
       shortId: shortId,
       redirectURL: url,
       visitHistory: [],

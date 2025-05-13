@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const urlSchema = new mongoose.Schema(
   {
+    project_name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     shortId: {
       type: String,
       required: true,
