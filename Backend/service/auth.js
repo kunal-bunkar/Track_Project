@@ -8,4 +8,13 @@ function getUser(id) {
   return sessionIdUserMap.get(id);
 }
 
-module.exports = { setUser, getUser };
+function removeUser(sessionId) {
+  if (sessionIdUserMap.has(sessionId)) {
+    sessionIdUserMap.delete(sessionId);
+    console.log(`Session ${sessionId} removed successfully.`);
+  } else {
+    console.log("Session not found or already cleared.");
+  }
+}
+
+module.exports = { setUser, getUser, removeUser };

@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const Users = require("../models/users");
-const { setUser } = require("../service/auth");
+const { setUser, removeUser } = require("../service/auth");
 
 async function handleUser(req, res) {
   try {
@@ -53,4 +53,28 @@ async function handleLogin(req, res) {
   }
 }
 
-module.exports = { handleUser, handleLogin };
+async function handleLogout(req, res) {
+  try {
+    const sessionId = req.cookies.uid;
+    if (!sessionId) {
+      return res.status(400).json({ message: "No active session." });
+    }
+    removeUser(sessionId);
+
+    res.clearCookie("uid", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+    });
+    return res.status(200).json({
+      message: "Logout successfully",
+    });
+  } catch (error) {
+    console.log("Error during logout", error);
+    return res.status(500).json({
+      message: "Something went wrong during logout",
+    });
+  }
+}
+
+module.exports = { handleUser, handleLogin, handleLogout };

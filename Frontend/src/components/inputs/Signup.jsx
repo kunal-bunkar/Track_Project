@@ -1,11 +1,15 @@
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const URL = "http://localhost:5000";
 const Signup = () => {
   const [name,setName] = useState('')
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+
+  const navigate = useNavigate()
+
   const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -22,6 +26,7 @@ const Signup = () => {
     setName('');
     setEmail('');
     setPassword('');
+    navigate('/login');
   } catch (error) {
     console.error('Signup error:', error);
   }
@@ -64,7 +69,7 @@ const Signup = () => {
               onChange={(e)=>setPassword(e.target.value)}
             />
           </div>
-          <p>Already have an account <a href="">Login</a></p>
+          <p>Already have an account <button onClick={()=>navigate('/login')} >Login</button></p>
 
           <button
             type="submit"

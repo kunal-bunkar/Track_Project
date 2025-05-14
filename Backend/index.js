@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user");
 const urlRouter = require("./routes/url");
 const homeRouter = require("./routes/home");
-const { loggedUserOnly, checkAuth } = require("./middlewares/auth");
+const { loggedUserOnly } = require("./middlewares/auth");
 const Url = require("./models/urls");
 const cors = require('cors')
 
@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.use("/", checkAuth, homeRouter);
+app.use("/", loggedUserOnly, homeRouter);
 app.use("/user", userRoute);
 app.use("/url", loggedUserOnly, urlRouter);
 

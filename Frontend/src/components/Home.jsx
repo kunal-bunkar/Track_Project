@@ -1,27 +1,20 @@
-import { useState } from "react"
-import URLs from "./inputs/URLs"
-import Header from "./Header"
-import Main from "./Main"
-import Login from "./inputs/Login"
-import Signup from "./inputs/Signup"
-
-
+import { useState } from "react";
+import URL from "./inputs/URLs";
+import Header from "./Header";
+import Main from "./Main";
+import Login from "./inputs/Login";
+import Signup from "./inputs/Signup";
 
 const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(true); // Toggle between login/signup
 
   return (
-    <div>
-      {isLoggedIn && <Header />}
-      {!isLoggedIn ? (
-        <Login setIsLoggedIn={setIsLoggedIn} />
-      ) : (
-        <>
-          <URLs />
-          <Main />
-        </>
-      )}
-    </div>
+    <>
+    <Header/>
+    <URL/>
+    <Main/>
+    </>
   );
 };
 

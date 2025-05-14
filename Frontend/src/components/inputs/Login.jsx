@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const URL = "http://localhost:5000";
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,12 +19,9 @@ const Login = ({ setIsLoggedIn }) => {
         },
         { withCredentials: true }
       );
-      console.log(data);
-      console.log(data.message); // Assuming your backend sends { message: 'User created' }
-
+      
       setEmail("");
       setPassword("");
-      setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
       if (error.response) {
@@ -75,6 +72,10 @@ const Login = ({ setIsLoggedIn }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <p>
+            Already have an account{" "}
+            <button onClick={() => navigate("/signup")}>Signup</button>
+          </p>
 
           <button
             type="submit"
