@@ -6,13 +6,25 @@ async function handleUser(req, res) {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(401).json({
+        message: "Please fill in all required information.",
+      });
+    }
+    const existUser = await Users.findOne({ email });
+    console.log(existUser)
+    if (existUser) {
+      return res.status(401).json({
+        message: "Account already exists with this email address.",
+      });
+    }
     const newUser = await Users.create({
       name,
       email,
       password,
     });
     return res.status(200).json({
-      message: "User created successfully",
+      message: "Account created successfully.",
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -20,7 +32,12 @@ async function handleUser(req, res) {
       },
     });
   } catch (error) {
-    console.log("Somthing went error ", error);
+    console.log(error)
+     res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+      error: error.message // Optional: send detailed error only if needed (avoid in production)
+    });
   }
 }
 
@@ -28,6 +45,11 @@ async function handleLogin(req, res) {
   try {
     const { email, password } = req.body;
 
+    if ( !email || !password) {
+      return res.status(401).json({
+        message: "Please fill in all required information.",
+      });
+    }
     const existUser = await Users.findOne({
       email,
       password,
@@ -35,7 +57,7 @@ async function handleLogin(req, res) {
     if (!existUser) {
       // Redirect to login page is panding
       return res.status(401).json({
-        message: "Invalid Username or password",
+        message: "Invalid email or password",
       });
     }
     const sessionId = uuidv4();
@@ -49,7 +71,11 @@ async function handleLogin(req, res) {
 
     // return res.redirect('/')
   } catch (error) {
-    console.log("Somthing went error ", error);
+     res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+      error: error.message // Optional: send detailed error only if needed (avoid in production)
+    });
   }
 }
 
@@ -67,12 +93,13 @@ async function handleLogout(req, res) {
       sameSite: "Lax",
     });
     return res.status(200).json({
-      message: "Logout successfully",
+      message: "Logout successful",
     });
   } catch (error) {
-    console.log("Error during logout", error);
-    return res.status(500).json({
-      message: "Something went wrong during logout",
+     res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+      error: error.message // Optional: send detailed error only if needed (avoid in production)
     });
   }
 }

@@ -6,21 +6,22 @@ const urlRouter = require("./routes/url");
 const homeRouter = require("./routes/home");
 const { loggedUserOnly } = require("./middlewares/auth");
 const Url = require("./models/urls");
-const cors = require('cors')
+const cors = require("cors");
 
 const app = express();
 const corsOptions = {
-  origin:'http://localhost:5173',
-  credentials:true
-}
-app.use(cors(corsOptions))
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
 
-app.use("/", loggedUserOnly, homeRouter);
 app.use("/user", userRoute);
+app.use("/", loggedUserOnly, homeRouter);
 app.use("/url", loggedUserOnly, urlRouter);
 
 app.get("/:shortId", async (req, res) => {

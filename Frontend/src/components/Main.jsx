@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import {toast} from 'react-toastify'
 
 const URL = "http://localhost:5000";
 
@@ -39,10 +40,10 @@ const Main = () => {
     const link = `${URL}/${shortId}`;
     try {
       await navigator.clipboard.writeText(link);
-      alert("✅ Link copied to clipboard!");
+      toast.success("Link copied to clipboard!")
     } catch (error) {
       console.error("Error copying link:", error);
-      alert("❌ Failed to copy link. Try again.");
+      toast.error("Failed to copy link. Try again.")
     }
   };
 
@@ -54,10 +55,10 @@ const Main = () => {
       const updated = projects.filter((p) => p.shortId !== shortId);
       setProjects(updated);
       setFilteredProjects(updated);
-      alert("✅ Project deleted.");
+      toast.success("Project deleted.")
     } catch (error) {
       console.error("Error deleting project:", error);
-      alert("❌ Failed to delete project.");
+      toast.error("Failed to delete project.")
     }
   };
 

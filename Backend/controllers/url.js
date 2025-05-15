@@ -9,6 +9,12 @@ async function handleURL(req, res) {
         message: "Invalid URL input",
       });
     }
+    const existURL = await Url.findOne({name})
+    if(existURL){
+      return res.status(401).json({
+        message: "URL already exists with this name",
+      });
+    }
     const shortId = nanoid(8);
     const newURL = await Url.create({
       project_name:name,
