@@ -64,7 +64,7 @@ async function handleLogin(req, res) {
     setUser(sessionId, existUser);
     res.cookie("uid", sessionId, {
       httpOnly: true,
-      secure: false, // ✅ false for local dev; set to true for production
+      secure: true, // ✅ false for local dev; set to true for production
       sameSite: "None", // ✅ required for cross-site cookies (frontend ↔ backend)
     });
 
