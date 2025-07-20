@@ -12,7 +12,7 @@ async function handleUser(req, res) {
       });
     }
     const existUser = await Users.findOne({ email });
-    console.log(existUser)
+    console.log(existUser);
     if (existUser) {
       return res.status(401).json({
         message: "Account already exists with this email address.",
@@ -32,11 +32,11 @@ async function handleUser(req, res) {
       },
     });
   } catch (error) {
-    console.log(error)
-     res.status(500).json({
+    console.log(error);
+    res.status(500).json({
       success: false,
       message: "Something went wrong. Please try again later.",
-      error: error.message // Optional: send detailed error only if needed (avoid in production)
+      error: error.message, // Optional: send detailed error only if needed (avoid in production)
     });
   }
 }
@@ -45,7 +45,7 @@ async function handleLogin(req, res) {
   try {
     const { email, password } = req.body;
 
-    if ( !email || !password) {
+    if (!email || !password) {
       return res.status(401).json({
         message: "Please fill in all required information.",
       });
@@ -63,18 +63,19 @@ async function handleLogin(req, res) {
     const sessionId = uuidv4();
     setUser(sessionId, existUser);
     res.cookie("uid", sessionId, {
-      httpOnly: true, // Helps prevent XSS
-      secure: false, // Set to true in production with HTTPS
-      sameSite: "Lax", // Helps CSRF protection
+      httpOnly: true,
+      secure: false, // ✅ false for local dev; set to true for production
+      sameSite: "None", // ✅ required for cross-site cookies (frontend ↔ backend)
     });
+
     return res.status(200).json({ message: "Login successful" });
 
     // return res.redirect('/')
   } catch (error) {
-     res.status(500).json({
+    res.status(500).json({
       success: false,
       message: "Something went wrong. Please try again later.",
-      error: error.message // Optional: send detailed error only if needed (avoid in production)
+      error: error.message, // Optional: send detailed error only if needed (avoid in production)
     });
   }
 }
@@ -90,16 +91,17 @@ async function handleLogout(req, res) {
     res.clearCookie("uid", {
       httpOnly: true,
       secure: false,
-      sameSite: "Lax",
+      sameSite: "None",
     });
+
     return res.status(200).json({
       message: "Logout successful",
     });
   } catch (error) {
-     res.status(500).json({
+    res.status(500).json({
       success: false,
       message: "Something went wrong. Please try again later.",
-      error: error.message // Optional: send detailed error only if needed (avoid in production)
+      error: error.message, // Optional: send detailed error only if needed (avoid in production)
     });
   }
 }

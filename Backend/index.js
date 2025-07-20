@@ -15,7 +15,7 @@ const app = express();
 
 // CORS config for frontend
 const corsOptions = {
-  origin: process.env.CLIENT_URL, // Now coming from .env
+  origin: "http://localhost:5173", // Now coming from .env
   credentials: true,
 };
 app.use(cors(corsOptions));

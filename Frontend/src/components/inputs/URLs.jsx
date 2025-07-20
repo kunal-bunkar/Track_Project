@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const URL = "https://track-project-7heh.onrender.com";
+const URL = "https://track-project-1.onrender.com";
 const URLs = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
