@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import {toast} from 'react-toastify'
 
-const URL = "http://localhost:5000";
+const URL = "https://track-project-7heh.onrender.com";
 
 const Main = () => {
   const [projects, setProjects] = useState([]);

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const URL = "http://localhost:5000";
+const URL = "https://track-project-7heh.onrender.com";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
