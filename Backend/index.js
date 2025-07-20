@@ -15,7 +15,7 @@ const app = express();
 
 // CORS config for frontend
 const corsOptions = {
-  origin: "https://deluxe-cucurucho-dca1de.netlify.app/", // Now coming from .env
+  origin: "https://deluxe-cucurucho-dca1de.netlify.app", // Now coming from .env
   credentials: true,
 };
 app.use(cors(corsOptions));
