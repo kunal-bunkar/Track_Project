@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const URL = "https://track-project-2.onrender.com";
+const URL = import.meta.env.VITE_API_URL;
 
 const Header = () => {
   const navigate = useNavigate();
