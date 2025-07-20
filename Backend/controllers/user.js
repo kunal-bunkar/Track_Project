@@ -90,7 +90,7 @@ async function handleLogout(req, res) {
 
     res.clearCookie("uid", {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "None",
     });
 
